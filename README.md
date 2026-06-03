@@ -8,7 +8,7 @@ This toolkit provides production-ready scripts and templates to automate two cri
 * **Infrastructure Provisioning**: Rapid deployment and configuration of cloud resources.
 * **User Lifecycle Operations**: Automated onboarding, offboarding, and role-mapping for enterprise tenants.
 
-## Configuration & Safety Notice
+## Configuration and Security Notice
 
 > [!IMPORTANT]
 > Before executing any scripts or deployment template, specific placeholders (e.g., `your_domain_name`, `your_password`) should be updated to match your specific tenant variables. 
