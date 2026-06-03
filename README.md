@@ -11,6 +11,6 @@ This toolkit provides production-ready scripts and templates to automate two cri
 ## Configuration and Security Notice
 
 > [!IMPORTANT]
-> Before executing any scripts or deployment template, specific placeholders (e.g., `your_domain_name`, `your_password`) should be updated to match your specific tenant variables. 
+> Before executing any scripts or deployment templates, specific placeholders (e.g., `your_domain_name`, `your_password`) should be updated to match your specific tenant variables. 
 > 
 > **Never commit plaintext credentials or production secrets back to your GitHub repository.**
