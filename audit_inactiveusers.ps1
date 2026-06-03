@@ -1,7 +1,7 @@
-# No special AuditLog permission needed for this one
+# Check the last 5 days.
 $5DaysAgo = (Get-Date).AddDays(-5)
 
-# We use CreatedDateTime instead of SignInActivity
+# Check for inactive users and generate a CSV.
 $Users = Get-MgUser -All -Property "DisplayName", "UserPrincipalName", "Id", "AccountEnabled", "CreatedDateTime"
 
 $OldAccounts = $Users | Where-Object {
@@ -19,7 +19,7 @@ $Results = foreach ($User in $OldAccounts) {
     }
 }
 
-# Save to CSV and display a summary
+# Save CSV and display a summary.
 $Results | Export-Csv -Path $ReportPath -NoTypeInformation
 Write-Host "Audit Complete. Report saved to: $ReportPath" -ForegroundColor Green
 Write-Host "Total flagged accounts: $($Results.Count)" -ForegroundColor White

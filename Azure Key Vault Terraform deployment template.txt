@@ -1,4 +1,4 @@
-# Define the Providers
+# Define the Providers.
 terraform {
   required_providers {
     azurerm = {
@@ -25,21 +25,21 @@ provider "azurerm" {
   }
 }
 
-# Fetch your current public IP address automatically
+# Fetch your current public IP address automatically.
 data "http" "my_public_ip" {
   url = "https://api.ipify.org"
 }
 
-# Retrieve current client/tenant details for deployment authority
+# Retrieve current client/tenant details for deployment authority.
 data "azurerm_client_config" "current" {}
 
-# Create a Resource Group
+# Create a Resource Group.
 resource "azurerm_resource_group" "rg" {
   name     = "your_resource_group"
   location = "West US"
 }
 
-# Create the Virtual Network
+# Create the Virtual Network.
 resource "azurerm_virtual_network" "vnet" {
   name                = "your_domain_name"
   address_space       = ["10.0.0.0/16"]
@@ -47,7 +47,7 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# Create a Subnet
+# Create a Subnet.
 resource "azurerm_subnet" "subnet" {
   name                 = "your_subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -56,21 +56,21 @@ resource "azurerm_subnet" "subnet" {
   service_endpoints    = ["Microsoft.KeyVault"]
 }
 
-# Deploy a User-Assigned Managed Identity for your workload/VM
+# Deploy a User-Assigned Managed Identity for your workload/VM.
 resource "azurerm_user_assigned_identity" "script_identity" {
   name                = "id-automation-runner"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# Helper to ensure Key Vault name uniqueness
+# Helper to ensure Key Vault name uniqueness.
 resource "random_string" "suffix" {
   length  = 6
   special = false
   upper   = false
 }
 
-# Deploy an Azure Key Vault with strict firewall rules
+# Deploy an Azure Key Vault with strict firewall rules.
 resource "azurerm_key_vault" "kv" {
   name                       = "kv-secure-secrets-${random_string.suffix.result}"
   location                   = azurerm_resource_group.rg.location
@@ -87,14 +87,14 @@ resource "azurerm_key_vault" "kv" {
   }
 }
 
-# Grant your Managed Identity explicit "Key Vault Secrets User" rights via Azure RBAC
+# Grant your Managed Identity explicit "Key Vault Secrets User" rights via Azure RBAC.
 resource "azurerm_role_assignment" "kv_secrets_user" {
   scope                = azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.script_identity.principal_id
 }
 
-# Grant yourself "Key Vault Secrets Officer" rights so you can add secrets via CLI/Terraform
+# Grant yourself "Key Vault Secrets Officer" rights so you can add secrets via CLI/Terraform.
 resource "azurerm_role_assignment" "kv_secrets_officer" {
   scope                = azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets Officer"

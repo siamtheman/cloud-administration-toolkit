@@ -1,14 +1,13 @@
-# Configuration
+# Configuration.
 $Domain = "your_domain_name"
 $CSVPath = Join-Path $PSScriptRoot "newhires.csv"
 
-# Import and process
+# Import and process.
 $NewUsers = Import-Csv -Path $CSVPath
 
+# Combine CSV data with your logic.
 foreach ($User in $NewUsers) {
-    # Combine CSV data with your logic
     $UPN = "$($User.MailNickname)@$($Domain)"
-    
     $UserData = @{
         DisplayName       = $User.DisplayName
         MailNickname      = $User.MailNickname
