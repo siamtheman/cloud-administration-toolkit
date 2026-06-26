@@ -101,7 +101,7 @@ resource "azurerm_role_assignment" "kv_secrets_officer" {
   principal_id         = data.azurerm_client_config.current.object_id
 }
 
-# Create the Log Analytics Workspace (LAW)
+# Create the Log Analytics Workspace (LAW).
 resource "azurerm_log_analytics_workspace" "security_law" {
   name                = "your_workspace_name"
   location            = "westus" # Match your existing resource group location
@@ -110,7 +110,7 @@ resource "azurerm_log_analytics_workspace" "security_law" {
   retention_in_days   = 30
 }
 
-# Onboard Microsoft Sentinel onto the Workspace
+# Onboard Microsoft Sentinel onto the Workspace.
 resource "azurerm_log_analytics_solution" "sentinel_onboarding" {
   solution_name         = "SecurityInsights"
   location              = azurerm_log_analytics_workspace.security_law.location
@@ -121,5 +121,19 @@ resource "azurerm_log_analytics_solution" "sentinel_onboarding" {
   plan {
     publisher = "Microsoft"
     product   = "OMSGallery/SecurityInsights"
+  }
+}
+
+# Connect Entra ID Sign-In Logs directly to your Sentinel Workspace.
+resource "azurerm_monitor_aad_diagnostic_setting" "entra_to_sentinel" {
+  name                       = "entra-signins-to-sentinel"
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.security_law.id
+# Captures standard user interactive sign-ins.
+  enabled_log {
+    category = "SignInLogs"
+  }
+# Captures service principal / non-interactive logins (automation scripts).
+  enabled_log {
+    category = "NonInteractiveUserSignInLogs"
   }
 }
