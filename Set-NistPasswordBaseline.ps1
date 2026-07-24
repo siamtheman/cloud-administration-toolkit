@@ -18,10 +18,10 @@ function Assert-Admin {
 
 Assert-Admin
 
-Write-Host "=== Current policy (before) ===" -ForegroundColor Cyan
+Write-Host "Current policy (before)" -ForegroundColor Cyan
 net accounts
 
-Write-Host "`nApplying NIST-aligned baseline..." -ForegroundColor Cyan
+Write-Host "Applying NIST-aligned baseline..." -ForegroundColor Cyan
 
 # Note: /maxpwage:UNLIMITED disables forced password expiration, per NIST guidance against periodic rotation absent evidence of compromise.
 net accounts `
