@@ -43,5 +43,5 @@ net accounts
 
 Write-Host "Note: password complexity requirements were left DISABLED intentionally," -ForegroundColor Yellow
 Write-Host "per NIST 800-63B guidance against mandatory composition rules." -ForegroundColor Yellow
-Write-Host "Breached-password screening is NOT configured — requires Entra ID Password" -ForegroundColor Yellow
+Write-Host "Breached-password screening is NOT configured. Requires Entra ID Password" -ForegroundColor Yellow
 Write-Host "Protection (P1) or a third-party tool; documented as a known gap." -ForegroundColor Yellow
